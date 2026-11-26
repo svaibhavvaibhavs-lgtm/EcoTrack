@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EcoTrack - Plastic Waste Tracker</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4faf5;
+    color: #17251b;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #15803d;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+main {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 18px;
+}
+
+.hero, .panel, .metric {
+    background: white;
+    border: 1px solid #dce8df;
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.hero {
+    background: #ecfdf3;
+}
+
+h1, h2, h3 {
+    color: #14532d;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric strong {
+    display: block;
+    font-size: 24px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+button {
+    background: #15803d;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+button:hover {
+    background: #14532d;
+}
+
+.bar {
+    height: 10px;
+    background: #dce9df;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.bar span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #16a34a;
+}
+
+.tile {
+    border: 1px solid #dce8df;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 12px;
+}
+
+.points {
+    background: #fffbeb;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64736a;
+}
+
+@media(max-width: 720px) {
+    .columns {
+        grid-template-columns: 1fr;
+    }
+
+    .metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1 style="color:white">♻️ EcoTrack</h1>
+    <p>Small Actions. Cleaner Tomorrow.</p>
+</header>
+
+<main>
+
+<section class="hero">
+    <h2>Track Your Plastic. Make Every Action Count.</h2>
+    <p>
+        Record plastic usage, track recycling activities
+        and discover ways to reduce plastic waste.
+    </p>
+
+    <h3>Recycling Rate: <span id="rate">0%</span></h3>
+    <div class="bar">
+        <span id="bar"></span>
+    </div>
+</section>
+
+<section class="metrics">
+
+    <div class="metric">
+        🧴
+        <p>Plastic Used</p>
+        <strong id="usedMetric">0</strong>
+    </div>
+
+    <div class="metric">
+        ♻️
+        <p>Plastic Recycled</p>
+        <strong id="recycledMetric">0</strong>
+    </div>
+
+    <div class="metric">
+        🌱
+        <p>Eco Points</p>
+        <strong id="pointsMetric">0</strong>
+    </div>
+
+    <div class="metric">
+        📅
+        <p>Activities</p>
+        <strong id="activitiesMetric">0</strong>
+    </div>
+
+</section>
+
+<section class="columns">
+
+<div class="panel">
+
+    <h2>Log Plastic Activity</h2>
+
+    <form id="form">
+
+        <div class="fields">
+
+            <div>
+                <label>Plastic Bottles Used</label>
+                <input type="number" id="bottles" min="0" value="0">
+            </div>
+
+            <div>
+                <label>Plastic Bags Used</label>
+                <input type="number" id="bags" min="0" value="0">
+            </div>
+
+            <div>
+                <label>Plastic Containers Used</label>
+                <input type="number" id="containers" min="0" value="0">
+            </div>
+
+            <div>
+                <label>Items Recycled</label>
+                <input type="number" id="recycled" min="0" value="0">
+            </div>
+
+        </div>
+
+        <label>Recycling Activity</label>
+
+        <select id="activity">
+            <option value="5">Recycled at Home</option>
+            <option value="10">Visited Recycling Centre</option>
+            <option value="15">Community Clean-up</option>
+            <option value="5">Reused Plastic Items</option>
+        </select>
+
+        <button type="submit">Submit Activity</button>
+
+        <p id="message"></p>
+
+    </form>
+
+</div>
+
+<div class="panel">
+
+    <h2>Your EcoTrack Results</h2>
+
+    <div class="tile">
+        <h3>🌿 Eco-Friendly Tips</h3>
+        <ul id="tips">
+            <li>Carry a reusable water bottle.</li>
+            <li>Use reusable shopping bags.</li>
+            <li>Sort recyclable plastic.</li>
+        </ul>
+    </div>
+
+    <div class="tile">
+        <h3>📊 Recycling Progress</h3>
+        <p id="summary">
+            Your recycling summary will appear here.
+        </p>
+    </div>
+
+    <div class="tile">
+        <h3>📍 Nearby Recycling Centres</h3>
+        <p>Find plastic recycling centres near you.</p>
+
+        <a href="https://www.google.com/maps/search/plastic+recycling+centres+near+me/"
+           target="_blank">
+            Search Nearby Centres
+        </a>
+    </div>
+
+    <div class="points">
+        <b>Green Activity Rewards</b>
+        <strong id="reward">0 pts</strong>
+    </div>
+
+</div>
+
+</section>
+</main>
+
+<footer>
+    EcoTrack - Reduce Plastic, Recycle More!
+</footer>
+
+<script>
+
+let used = 0;
+let recycled = 0;
+let points = 0;
+let activities = 0;
+
+function updateDashboard() {
+
+    let rate = used > 0
+        ? Math.min(100, Math.round((recycled / used) * 100))
+        : 0;
+
+    document.getElementById("rate").innerText =
+        rate + "%";
+
+    document.getElementById("bar").style.width =
+        rate + "%";
+
+    document.getElementById("usedMetric").innerText =
+        used;
+
+    document.getElementById("recycledMetric").innerText =
+        recycled;
+
+    document.getElementById("pointsMetric").innerText =
+        points;
+
+    document.getElementById("activitiesMetric").innerText =
+        activities;
+
+    document.getElementById("reward").innerText =
+        points + " pts";
+
+    document.getElementById("summary").innerText =
+        "You used " + used +
+        " plastic items and recycled " + recycled +
+        " items. Your recycling rate is " + rate + "%.";
+
+    let tips = [];
+
+    if (used > recycled) {
+        tips.push("Try replacing single-use plastic with reusable items.");
+    }
+
+    if (used >= 10) {
+        tips.push("Choose products with less plastic packaging.");
+    }
+
+    if (recycled === 0) {
+        tips.push("Find a recycling centre near you.");
+    }
+
+    tips.push("Clean and sort recyclable containers properly.");
+
+    document.getElementById("tips").innerHTML =
+        tips.map(tip => "<li>" + tip + "</li>").join("");
+}
+
+document.getElementById("form").addEventListener(
+    "submit", function(event) {
+
+    event.preventDefault();
+
+    let bottles = Number(
+        document.getElementById("bottles").value
+    );
+
+    let bags = Number(
+        document.getElementById("bags").value
+    );
+
+    let containers = Number(
+        document.getElementById("containers").value
+    );
+
+    let recycledNow = Number(
+        document.getElementById("recycled").value
+    );
+
+    let total = bottles + bags + containers;
+
+    if ([bottles, bags, containers, recycledNow].some(
+        n => !Number.isFinite(n) || n < 0
+    )) {
+        document.getElementById("message").innerText =
+            "Enter valid numbers.";
+        return;
+    }
+
+    if (recycledNow > total) {
+        document.getElementById("message").innerText =
+            "Recycled items cannot exceed items used.";
+        return;
+    }
+
+    if (total === 0 && recycledNow === 0) {
+        document.getElementById("message").innerText =
+            "Enter at least one item.";
+        return;
+    }
+
+    used += total;
+    recycled += recycledNow;
+
+    points += Number(
+        document.getElementById("activity").value
+    ) + Math.floor(recycledNow * 2);
+
+    activities++;
+
+    updateDashboard();
+
+    document.getElementById("message").innerText =
+        "Activity submitted successfully!";
+
+    document.getElementById("form").reset();
+
+});
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
